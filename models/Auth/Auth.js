@@ -19,7 +19,7 @@ export const AuthModel = {
     const hashPassword = sha256(password);
 
     const { insertId } = await dbQuery(
-      "INSERT INTO `users`( `login`, `password`) VALUES (?,?)",
+      "INSERT INTO `users`( `login_hash`, `password_hash`,`role`) VALUES (?,?,'user')",
       [hashLogin, hashPassword],
     );
 
@@ -29,11 +29,11 @@ export const AuthModel = {
   signIn: async (login, password) => {
     const hashLogin = sha256(login);
 
-    const user = await dbQuery("select * from users where login = ?", [
+    const user = await dbQuery("select * from users where login_hash = ?", [
       hashLogin,
     ]);
 
-    if (user.length === 0 || user[0].password !== sha256(password)) {
+    if (user.length === 0 || user[0].password_hash !== sha256(password)) {
       return { error: true, message: errorMessages.invalidUser, status: 422 };
     }
 

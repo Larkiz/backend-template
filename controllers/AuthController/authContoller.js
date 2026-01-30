@@ -28,7 +28,8 @@ export const authController = {
       }
 
       return res.status(200).json(resDb);
-    } catch {
+    } catch (err) {
+      console.log(err);
       return res.status(500).json({ message: "Ошибка сервера" });
     }
   },
@@ -56,7 +57,9 @@ export const authController = {
       }
 
       return res.status(200).json(resDb);
-    } catch {
+    } catch (err) {
+      console.log(err);
+
       return res.status(500).json({ message: "Ошибка сервера" });
     }
   },
